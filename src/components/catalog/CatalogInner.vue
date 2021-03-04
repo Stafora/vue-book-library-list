@@ -45,6 +45,9 @@
 
     export default {
         name: 'CatalogInner',
+        /**
+         * DATA
+         */
         data(){
             return{
                 id: this.$route.params.id,
@@ -52,6 +55,9 @@
                 gallery: [],
             }
         },
+        /**
+         * MOUNTED
+         */
         mounted() {
             let result = JsonService.getItem(this.id);
             if(result.length){
@@ -60,7 +66,13 @@
                 this.$router.push('/404')
             }
         },
+        /**
+         * METHODS
+         */
         methods: {
+            /** 
+             * @return {String}
+             */
             getContacts: function(){
                 if(Helper.issetInObject(this.item, 'contacts.phones')){
                     return this.item.contacts.phones;

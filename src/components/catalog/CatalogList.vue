@@ -33,6 +33,9 @@
 
     export default {
         name: 'CatalogList',
+        /**
+        * DATA
+         */
         data(){
             return{
                 findName: '',
@@ -41,21 +44,37 @@
                 tag: '',
             }
         },
+        /**
+        * COMPONENTS
+         */
         components: {
             CatalogItem
         },
+        /**
+         * COMPUTED
+         */
         computed: {
+            /**
+             * @return {Object}
+             */
             filteredItems: function() {
                 if(this.sorting){
                     this.catalog.sort(this.sortModified);
-                } 
+                }
                 let filterByName = new RegExp(this.findName, 'i');
                 return this.catalog.filter(function(item) {
                     return item.data.general.name.match(filterByName);
                 });
             },
         },
+        /**
+         * METHODS
+         */
         methods: {
+            /**
+             * @param {Object} itemA 
+             * @param {Object} itemB
+             */
             sortModified(itemA, itemB){
                 let objectPath = this.sorting.split('.');
                 for(let i=0; i < objectPath.length; i++){
