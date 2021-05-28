@@ -1,3 +1,4 @@
+import './register-service-worker'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'

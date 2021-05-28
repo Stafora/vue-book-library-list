@@ -15,8 +15,6 @@
         components: {
             CatalogList,
         },
-        mounted() {
-        }
     }
 </script>
 

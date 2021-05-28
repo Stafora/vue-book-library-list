@@ -29,7 +29,7 @@
 
 <script>
     import CatalogItem from '@/components/catalog/CatalogItem.vue'
-    import { JsonService } from '@/service/JsonService'
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'CatalogList',
@@ -40,9 +40,14 @@
             return{
                 findName: '',
                 sorting: '',
-                catalog: JsonService.getList(),
                 tag: '',
             }
+        },
+        /**
+        * MOUNTED
+         */
+        mounted() {
+            this.GET_CATALOG_API();
         },
         /**
         * COMPONENTS
@@ -54,15 +59,18 @@
          * COMPUTED
          */
         computed: {
+            ...mapGetters([
+                'CATALOG'
+            ]),
             /**
              * @return {Object}
              */
             filteredItems: function() {
                 if(this.sorting){
-                    this.catalog.sort(this.sortModified);
+                    this.CATALOG.sort(this.sortModified);
                 }
                 let filterByName = new RegExp(this.findName, 'i');
-                return this.catalog.filter(function(item) {
+                return this.CATALOG.filter(function(item) {
                     return item.data.general.name.match(filterByName);
                 });
             },
@@ -71,6 +79,9 @@
          * METHODS
          */
         methods: {
+            ...mapActions([
+                'GET_CATALOG_API'
+            ]),
             /**
              * @param {Object} itemA 
              * @param {Object} itemB

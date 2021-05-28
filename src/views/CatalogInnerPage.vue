@@ -14,8 +14,6 @@
         components: {
             CatalogInner,
         },
-        mounted() {
-        }
     }
 </script>
 

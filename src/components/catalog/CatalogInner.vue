@@ -4,7 +4,7 @@
 
             <h1>{{ item.name }}</h1>
 
-            <div class="catalog-inner">
+            <div class="catalog-inner" v-if="getItem">
 
                 <div class="catalog-inner__left">
                     <a :href="item.image.url" target="__blank" class="catalog-inner__image" v-if="item.image">
@@ -41,7 +41,7 @@
 
 <script>
     import { Helper } from '@/helper/helper'
-    import { JsonService } from '@/service/JsonService';
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'CatalogInner',
@@ -51,7 +51,7 @@
         data(){
             return{
                 id: this.$route.params.id,
-                item: {},
+                item: '',
                 gallery: [],
             }
         },
@@ -59,17 +59,33 @@
          * MOUNTED
          */
         mounted() {
-            let result = JsonService.getItem(this.id);
-            if(result.length){
-                this.item = result[0].data.general;
-            } else {
-                this.$router.push('/404')
+            this.GET_CATALOG_API();
+        },
+        /**
+         * COMPUTED
+         */
+        computed: {
+            ...mapGetters([
+                'CATALOG'
+            ]),
+            getItem: function(){
+                let id = this.id;
+                let result = this.CATALOG.filter(function(item) {
+                    return item.data.general.id == id;
+                });
+                if(result[0]){
+                    this.item = result[0].data.general;
+                } 
+                return this.item;
             }
         },
         /**
          * METHODS
          */
         methods: {
+            ...mapActions([
+                'GET_CATALOG_API'
+            ]),            
             /** 
              * @return {String}
              */
