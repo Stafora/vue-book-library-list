@@ -70,12 +70,14 @@
             ]),
             getItem: function(){
                 let id = this.id;
-                let result = this.CATALOG.filter(function(item) {
-                    return item.data.general.id == id;
+                let result = this.CATALOG.find(function(element) {
+                    if(element.data.general.id == id){
+                        return element;
+                    }
                 });
-                if(result[0]){
-                    this.item = result[0].data.general;
-                } 
+                if(result){
+                    this.item = result.data.general;
+                }
                 return this.item;
             }
         },
